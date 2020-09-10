@@ -6,11 +6,13 @@ exports.findById = function(req, res) {
 }*/
 
 var mongo = require('mongodb'); 
+const express = require ('express');
+express.Router
 var Server = mongo.Server; 
 var Db = mongo.Db; 
 var BSON = mongo.BSONPure; 
 
-var server = new Server('200.9.176.229', 27017, {auto_reconnect: true}); 
+var server = new Server('127.0.0.1', 27017, {auto_reconnect: true}); 
 db = new Db('winedb', server);
 
 db.open(function(err, db) {     
@@ -38,8 +40,8 @@ exports.findById = function(req, res) {
     var id = req.params.id;
     console.log('Retrieving wine: ' + id);
     db.collection('wines') 
-        .findOne({'_id':new BSON.ObjectID(id)}, function(err, item) { 
-      //.findOne({'_id':new mongo.ObjectID(id)}, function(err, item) {
+    //.findOne({'_id':new BSON.ObjectID(id)}, function(err, item) { 
+      .findOne({'_id':new mongo.ObjectID(id)}, function(err, item) {
             res.send(item);
         });
 };
@@ -71,8 +73,8 @@ exports.deleteWine = function(req, res) {
     var id = req.params.id;     
     console.log('Deleting wine: ' + id);     
     db.collection('wines')         
-    .remove({'_id':new BSON.ObjectID(id)}, function(err, result) {         
-    //.remove({'_id':new mongo.ObjectID(id)}, function(err, result) {    
+    //.remove({'_id':new BSON.ObjectID(id)}, function(err, result) {         
+    .remove({'_id':new mongo.ObjectID(id)}, function(err, result) {    
         if (err) {                 
             res.send({'error':'An error has occurred - ' + err});             
         } else {                 
